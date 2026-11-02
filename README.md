@@ -12,6 +12,7 @@ Built with [Claude](https://claude.com/claude-code) (Claude Code), React and thr
 - **Room shortcuts:** jump the camera to the bedroom, living room, office, kitchen, bathroom or balcony.
 - **Movable furniture:** drag a piece to move it and see the distances around it. Arrow keys adjust by 1 cm and R rotates by 90°. The app warns about tight passages and collisions.
 - **Undo and redo:** Ctrl/⌘ + Z and Ctrl/⌘ + Shift + Z.
+- **Decoration styles:** switch the whole look without touching the layout. Cozy adds indirect lighting, plants, paper lanterns over the island, curtains and a rug.
 - **Palettes:** cabinetry, walls, sofa, granite and floor.
 - **Environment controls:** ceiling height, wall cut height, wardrobe LED, open doors and room names on the plan.
 - **Day and night:** press N or use the Night checkbox.

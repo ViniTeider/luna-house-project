@@ -39,6 +39,7 @@ export function App() {
       <SidePanel
         settings={apartment.settings}
         onPalette={apartment.setPalette}
+        onStyle={apartment.setStyle}
         onCeiling={apartment.setCeiling}
         onCut={apartment.setCut}
         onToggle={apartment.setToggle}

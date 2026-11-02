@@ -1,4 +1,6 @@
 import type { Settings } from "../scene/ApartmentView";
+import { STYLES } from "../scene/decor";
+import type { StyleKey } from "../scene/decor";
 import { PALETTES } from "../scene/materials";
 import type { PaletteKey, PaletteValues } from "../scene/materials";
 
@@ -23,6 +25,7 @@ const swatchColor = (values: PaletteValues) =>
 interface SidePanelProps {
   settings: Settings;
   onPalette: (group: PaletteKey, name: string) => void;
+  onStyle: (style: StyleKey) => void;
   onCeiling: (value: number) => void;
   onCut: (value: number) => void;
   onToggle: (key: ToggleKey, value: boolean) => void;
@@ -32,6 +35,7 @@ interface SidePanelProps {
 export function SidePanel({
   settings,
   onPalette,
+  onStyle,
   onCeiling,
   onCut,
   onToggle,
@@ -40,6 +44,28 @@ export function SidePanel({
   return (
     <aside className="panel">
       <h1>Luna House</h1>
+
+      <section id="styles">
+        <h2>Decoration style</h2>
+        <div className="chips">
+          {(Object.keys(STYLES) as StyleKey[]).map((style) => (
+            <button
+              key={style}
+              className={settings.style === style ? "active" : ""}
+              onClick={() => onStyle(style)}
+            >
+              <span
+                className="swatch"
+                style={{ background: STYLES[style].swatch }}
+              />
+              {style}
+            </button>
+          ))}
+        </div>
+        <p className="hint">
+          Sets its own palettes; you can still change them below.
+        </p>
+      </section>
 
       <section id="palettes">
         <h2>Palettes</h2>

@@ -17,6 +17,8 @@ import { createMaterials } from "./materials";
 import type { Materials, PaletteSelection } from "./materials";
 import { FIXED_OBSTACLES, ITEMS, ROOMS, VIEWS, WALK_START } from "./plan";
 import type { DoorSpec, ItemSpec, Obstacle, Rect } from "./plan";
+import { buildDecor, createDecorKit, STYLES } from "./decor";
+import type { StyleKey } from "./decor";
 import {
   buildCeiling,
   buildDoors,
@@ -46,6 +48,7 @@ export interface Settings {
   night: boolean;
   doorsOpen: boolean;
   roomsOn: boolean;
+  style: StyleKey;
   palette: PaletteSelection;
 }
 
@@ -142,7 +145,10 @@ export class ApartmentView {
   private readonly items: PlacedItem[];
   private readonly itemsGroup = new THREE.Group();
   private readonly doors: THREE.Group[];
-  private readonly fixed: Obstacle[];
+  private readonly baseObstacles: Obstacle[];
+  private fixed: Obstacle[];
+  private readonly decorKit = createDecorKit();
+  private lanternLights: THREE.PointLight[] = [];
   private shell: THREE.Group[] = [];
   private landscape: Landscape | null = null;
 
@@ -275,7 +281,8 @@ export class ApartmentView {
 
     this.doors = buildDoors(this.M);
     this.scene.add(...this.doors);
-    this.fixed = [...wallBlockers(), ...FIXED_OBSTACLES];
+    this.baseObstacles = [...wallBlockers(), ...FIXED_OBSTACLES];
+    this.fixed = this.baseObstacles;
 
     const lineBuffer = () =>
       new THREE.Float32BufferAttribute(new Float32Array(8 * 3), 3);
@@ -328,7 +335,11 @@ export class ApartmentView {
     const prev = this.settings;
     this.settings = next;
     if (prev === next) return;
-    if (prev.ceil !== next.ceil || prev.cut !== next.cut) this.rebuildShell();
+    const rebuild =
+      prev.ceil !== next.ceil ||
+      prev.cut !== next.cut ||
+      prev.style !== next.style;
+    if (rebuild) this.rebuildShell();
     if (prev.palette !== next.palette) this.M.apply(next.palette);
     if (prev.doorsOpen !== next.doorsOpen) this.applyDoors();
     this.applyLighting();
@@ -454,6 +465,7 @@ export class ApartmentView {
       buildBath(this.M, wallH),
       buildGrill(this.M, wallH),
       buildKitchen(this.M, !planning),
+      this.applyDecor(wallH, planning),
     ];
     this.scene.add(...this.shell);
     this.excludeFromFog();
@@ -464,6 +476,38 @@ export class ApartmentView {
     });
     this.doors.forEach((door) => (door.scale.y = Math.min(1, wallH / 208)));
     this.renderer.shadowMap.needsUpdate = true;
+  }
+
+  // Returns what stays in place; the rest goes inside each piece of furniture.
+  private applyDecor(wallH: number, planning: boolean) {
+    const { style, ceil } = this.settings;
+    const decor = buildDecor(style, this.M, this.decorKit, {
+      ceil,
+      wallH,
+      planning,
+    });
+    this.items.forEach((item) => {
+      const old = item.mesh.getObjectByName("decor");
+      if (old) {
+        old.removeFromParent();
+        old.traverse((o) => {
+          if (o instanceof THREE.Mesh) o.geometry.dispose();
+        });
+      }
+      const build = decor.items[item.build];
+      if (!build) return;
+      const group = new THREE.Group();
+      group.name = "decor";
+      build(group);
+      item.mesh.add(group);
+    });
+    this.lanternLights = [];
+    this.itemsGroup.traverse((o) => {
+      if (o instanceof THREE.PointLight && o.userData.lantern)
+        this.lanternLights.push(o);
+    });
+    this.fixed = [...this.baseObstacles, ...decor.obstacles];
+    return decor.fixed;
   }
 
   private excludeFromFog() {
@@ -477,11 +521,15 @@ export class ApartmentView {
   }
 
   private applyLighting() {
-    const { night, led, cut, ceil } = this.settings;
+    const { night, led, cut, ceil, style } = this.settings;
+    const look = STYLES[style];
     const planning = this.mode === "plan";
     if (planning) this.sun.position.set(4.5, 12, 1.5);
     else this.sun.position.set(11, 9, -3.5);
-    this.sun.intensity = night ? 0 : planning ? 1.6 : 3.1;
+    this.sun.color.set(look.sun);
+    this.sun.intensity = night ? 0 : (planning ? 1.6 : 3.1) * look.sunIntensity;
+    this.hemi.color.set(look.hemiSky);
+    this.hemi.groundColor.set(look.hemiGround);
     this.hemi.intensity = night
       ? 0.12
       : this.mode === "walk"
@@ -492,7 +540,13 @@ export class ApartmentView {
     this.scene.environmentIntensity = night ? 0.08 : 0.45;
     // Hidden rather than dimmed: a light at zero still costs time on every pixel.
     this.roomLights.forEach((light) => {
-      light.intensity = night ? 2.6 : 0;
+      light.color.set(look.roomLight);
+      light.intensity = night ? look.roomIntensity : 0;
+      light.visible = night;
+    });
+    this.decorKit.setNight(night);
+    this.lanternLights.forEach((light) => {
+      light.intensity = night ? 3.2 : 0;
       light.visible = night;
     });
     this.ledBridge.intensity = led ? (night ? 18 : 7) : 0;

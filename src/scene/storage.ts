@@ -1,5 +1,6 @@
 import type { Layout, Settings } from './ApartmentView';
 import { MODEL_CUT } from './ApartmentView';
+import { STYLE_DEFAULT, STYLES } from './decor';
 import { PALETTES } from './materials';
 import type { PaletteKey, PaletteSelection } from './materials';
 import { CEILING_DEFAULT, ITEMS } from './plan';
@@ -98,6 +99,7 @@ export function loadState(): SavedState {
       night: saved.night ?? false,
       doorsOpen: saved.doorsOpen ?? true,
       roomsOn: saved.roomsOn ?? true,
+      style: saved.style && saved.style in STYLES ? saved.style : STYLE_DEFAULT,
       palette,
     },
   };

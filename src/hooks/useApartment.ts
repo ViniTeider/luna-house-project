@@ -7,7 +7,10 @@ import type {
   SelectionInfo,
   Settings,
 } from "../scene/ApartmentView";
-import type { PaletteKey } from "../scene/materials";
+import { STYLES } from "../scene/decor";
+import type { StyleKey } from "../scene/decor";
+import { PALETTES } from "../scene/materials";
+import type { PaletteKey, PaletteSelection } from "../scene/materials";
 import { loadState, saveState } from "../scene/storage";
 
 const HISTORY_LIMIT = 100;
@@ -201,6 +204,19 @@ export function useApartment(
     [change],
   );
 
+  const setStyle = useCallback(
+    (style: StyleKey) => {
+      const defaults = Object.fromEntries(
+        (Object.keys(PALETTES) as PaletteKey[]).map((key) => [
+          key,
+          PALETTES[key].default,
+        ]),
+      ) as PaletteSelection;
+      change({ style, palette: { ...defaults, ...STYLES[style].palette } });
+    },
+    [change],
+  );
+
   return {
     settings,
     mode,
@@ -213,6 +229,7 @@ export function useApartment(
     goToOverview,
     goToView,
     setPalette,
+    setStyle,
     setCut,
     setCeiling: useCallback((ceil: number) => change({ ceil }, true), [change]),
     setToggle: useCallback(

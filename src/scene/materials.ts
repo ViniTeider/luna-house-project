@@ -34,6 +34,7 @@ export const PALETTES: Record<PaletteKey, PaletteGroup> = {
       'White + wood': { main: '#ece8e1', wood: '#d6b890', top: '#e6e3dc' },
       'Graphite + wood': { main: '#43474c', wood: '#9a7350', top: '#5a5e63' },
       'Green + wood': { main: '#24382f', wood: '#c6a077', top: '#e6e1d6' },
+      'Walnut + oak': { main: '#5e412c', wood: '#c09468', top: '#e4d8c4' },
     },
   },
   walls: {
@@ -81,6 +82,7 @@ export const PALETTES: Record<PaletteKey, PaletteGroup> = {
     default: 'Light wood',
     options: {
       'Light wood': { floor: '#dcbd93', floorTex: 'planks' },
+      'Honey wood': { floor: '#c49a68', floorTex: 'planks' },
       'Dark wood': { floor: '#7a5338', floorTex: 'planks' },
       'Gray porcelain': { floor: '#cfcdc8', floorTex: 'tile' },
     },
