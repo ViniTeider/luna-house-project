@@ -169,8 +169,10 @@ export function useApartment(
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.code !== "KeyN" || e.repeat || e.metaKey || e.ctrlKey) return;
-      change({ night: !settingsRef.current.night });
+      if (e.repeat || e.metaKey || e.ctrlKey) return;
+      const { night, cabinetOpen } = settingsRef.current;
+      if (e.code === "KeyN") change({ night: !night });
+      if (e.code === "KeyO") change({ cabinetOpen: !cabinetOpen });
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -234,7 +236,13 @@ export function useApartment(
     setCeiling: useCallback((ceil: number) => change({ ceil }, true), [change]),
     setToggle: useCallback(
       (
-        key: "led" | "night" | "doorsOpen" | "roomsOn" | "projector",
+        key:
+          | "led"
+          | "night"
+          | "doorsOpen"
+          | "roomsOn"
+          | "projector"
+          | "cabinetOpen",
         value: boolean,
       ) => change({ [key]: value }),
       [change],

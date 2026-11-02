@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { Materials } from "../materials";
+import { lavaLamp } from "./lavaLamp";
 import { B } from "./primitives";
 
 // TV unit against the north wall, with the TV mounted above it.
@@ -20,4 +21,5 @@ export function rack(g: THREE.Group, M: Materials) {
   B(g, M.black, 0, tvBottom, tvZ, 122.6, 71, 6);
   const tv = B(g, M.screen, 0, tvBottom + 1, tvZ + 3.2, 120.6, 69, 0.4);
   tv.castShadow = false;
+  lavaLamp(g, M, -96, 45, 0, -18);
 }

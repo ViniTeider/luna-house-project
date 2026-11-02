@@ -233,6 +233,71 @@ function brickTexture() {
   }, 0.6);
 }
 
+export const SURF_RUG = { width: 0.62, length: 1.65 };
+
+// Lengthwise deck of a surfboard: white, blue rails and stripes, thin center stringer.
+function surfRugTexture() {
+  const tex = canvasTexture(1024, (ctx, s) => {
+    ctx.fillStyle = '#f4f3ee';
+    ctx.fillRect(0, 0, s, s);
+    ctx.fillStyle = '#1b4f9c';
+    ctx.fillRect(0, 0, s * 0.13, s);
+    ctx.fillRect(s * 0.87, 0, s * 0.13, s);
+    ctx.fillRect(s * 0.3, 0, s * 0.1, s);
+    ctx.fillRect(s * 0.6, 0, s * 0.1, s);
+    ctx.fillStyle = '#6fa8dc';
+    ctx.fillRect(s * 0.17, 0, s * 0.05, s);
+    ctx.fillRect(s * 0.78, 0, s * 0.05, s);
+    ctx.fillStyle = '#16345f';
+    ctx.fillRect(s * 0.495, 0, s * 0.01, s);
+    for (let i = 0; i < 26000; i++) {
+      ctx.fillStyle = `rgba(30,40,70,${Math.random() * 0.07})`;
+      ctx.fillRect(Math.random() * s, Math.random() * s, 1 + Math.random() * 3, 2);
+    }
+  }, 1);
+  tex.repeat.set(1 / SURF_RUG.width, 1 / SURF_RUG.length);
+  tex.offset.set(0.5, 0.5);
+  return tex;
+}
+
+function lavaGlassTexture() {
+  const tex = canvasTexture(512, (ctx, s) => {
+    const liquid = ctx.createLinearGradient(0, s, 0, 0);
+    liquid.addColorStop(0, '#ff5fb3');
+    liquid.addColorStop(0.4, '#f02c95');
+    liquid.addColorStop(1, '#a3126a');
+    ctx.fillStyle = liquid;
+    ctx.fillRect(0, 0, s, s);
+    const blobs = [
+      [0.15, 0.82, 0.13, 0.15],
+      [0.5, 0.9, 0.2, 0.1],
+      [0.82, 0.76, 0.12, 0.16],
+      [0.34, 0.5, 0.09, 0.16],
+      [0.68, 0.42, 0.08, 0.11],
+      [0.1, 0.24, 0.06, 0.09],
+      [0.5, 0.14, 0.09, 0.1],
+    ];
+    blobs.forEach(([x, y, rx, ry]) => {
+      ctx.fillStyle = '#ffc1e2';
+      ctx.beginPath();
+      ctx.ellipse(x * s, y * s, rx * s, ry * s, 0, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }, 1);
+  return tex;
+}
+
+function pinkGlowTexture() {
+  return canvasTexture(128, (ctx, s) => {
+    const glow = ctx.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+    glow.addColorStop(0, '#ff4fb0');
+    glow.addColorStop(0.5, '#6b1a4d');
+    glow.addColorStop(1, '#000000');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, s, s);
+  }, 1);
+}
+
 export function createMaterials() {
   const plain = (color: string, roughness = 0.6, metalness = 0, extra: THREE.MeshStandardMaterialParameters = {}) =>
     new THREE.MeshStandardMaterial({ color, roughness, metalness, ...extra });
@@ -257,6 +322,18 @@ export function createMaterials() {
     duvet: plain('#c9c2b4', 0.95, 0, { map: fabric }),
     white: plain('#f2f1ed', 0.35),
     projector: plain('#1e3f68', 0.4),
+    surfRug: plain('#ffffff', 1, 0, { map: surfRugTexture() }),
+    surfRugEdge: plain('#1b4f9c', 1),
+    lavaGlass: new THREE.MeshBasicMaterial({ map: lavaGlassTexture(), toneMapped: false }),
+    lavaGlow: new THREE.MeshBasicMaterial({
+      map: pinkGlowTexture(),
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      toneMapped: false,
+    }),
+    vanity: plain('#d2c5ae', 0.4),
+    vanityFront: plain('#e0d5c1', 0.32),
     black: plain('#101113', 0.4),
     blackSoft: plain('#1a1b1e', 0.85),
     green: plain('#2fae5a', 0.7),

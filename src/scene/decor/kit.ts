@@ -53,6 +53,64 @@ function woolTexture() {
   return tex;
 }
 
+// Handmade square tiles: each one a little different, with thin grout between them.
+function zelligeTexture() {
+  let seed = 11;
+  const random = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const size = 1024,
+    cell = size / 10;
+  const tex = canvasTexture(
+    size,
+    size,
+    (ctx) => {
+      ctx.fillStyle = "#b9a98f";
+      ctx.fillRect(0, 0, size, size);
+      for (let col = 0; col < 10; col++) {
+        for (let row = 0; row < 10; row++) {
+          const light = 226 + random() * 28;
+          const r = Math.round(light),
+            g = Math.round(light * 0.92),
+            b = Math.round(light * 0.8);
+          ctx.fillStyle = `rgb(${r},${g},${b})`;
+          ctx.fillRect(col * cell + 2, row * cell + 2, cell - 4, cell - 4);
+        }
+      }
+    },
+    true,
+  );
+  tex.anisotropy = 8;
+  return tex;
+}
+
+function stoneFloorTexture() {
+  let seed = 19;
+  const random = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const size = 1024,
+    cell = size / 2;
+  const tex = canvasTexture(
+    size,
+    size,
+    (ctx) => {
+      ctx.fillStyle = "#8d7c66";
+      ctx.fillRect(0, 0, size, size);
+      for (let col = 0; col < 2; col++) {
+        for (let row = 0; row < 2; row++) {
+          const light = 214 + random() * 14;
+          ctx.fillStyle = `rgb(${light},${light * 0.9},${light * 0.76})`;
+          ctx.fillRect(col * cell + 2, row * cell + 2, cell - 4, cell - 4);
+        }
+      }
+      for (let i = 0; i < 2400; i++) {
+        ctx.fillStyle = `rgba(120,96,70,${random() * 0.1})`;
+        ctx.fillRect(random() * size, random() * size, 2 + random() * 26, 2);
+      }
+    },
+    true,
+  );
+  tex.anisotropy = 8;
+  return tex;
+}
+
 function haloTexture() {
   return canvasTexture(128, 128, (ctx) => {
     const glow = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
@@ -105,6 +163,22 @@ export function createDecorKit() {
       roughness: 1,
       map: woolTexture(),
     }),
+    zellige: new THREE.MeshStandardMaterial({
+      color: "#ffffff",
+      roughness: 0.32,
+      map: zelligeTexture(),
+    }),
+    stoneFloor: new THREE.MeshStandardMaterial({
+      color: "#ffffff",
+      roughness: 0.6,
+      map: stoneFloorTexture(),
+    }),
+    towelLinen: plain("#d8cbb4", 1),
+    amber: new THREE.MeshStandardMaterial({
+      color: "#7a3f16",
+      roughness: 0.2,
+    }),
+    wicker: plain("#a07c52", 0.9),
     cushionRust: plain("#97583c", 0.95),
     cushionOchre: plain("#b58f5a", 0.95),
     throw: plain("#8c6a48", 0.95),

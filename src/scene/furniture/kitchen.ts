@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { Materials } from "../materials";
+import { microwave } from "./microwave";
 import { B } from "./primitives";
 
 // Fixed kitchen parts, in plan coordinates.
@@ -11,6 +12,7 @@ export function buildKitchen(M: Materials, withUppers: boolean) {
   B(g, M.main, 369.5, 0, 309.5, 59, 86, 45);
   B(g, M.wood, 369.5, 12, 286.7, 57, 72, 0.6);
   B(g, M.granite, 369.5, 86, 309.5, 59, 4, 45);
+  microwave(g, M, 369.5, 90, 311);
   if (!withUppers) return g;
 
   // Upper cabinets: 70 cm tall, from 1.50 to 2.20 m, 35 cm deep

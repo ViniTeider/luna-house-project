@@ -100,6 +100,7 @@ export function loadState(): SavedState {
       doorsOpen: saved.doorsOpen ?? true,
       roomsOn: saved.roomsOn ?? true,
       projector: saved.projector ?? true,
+      cabinetOpen: saved.cabinetOpen ?? false,
       style: saved.style && saved.style in STYLES ? saved.style : STYLE_DEFAULT,
       palette,
     },

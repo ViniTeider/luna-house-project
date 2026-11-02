@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { Materials } from "../materials";
+import { airFryer } from "./airFryer";
 import { B, Cyl } from "./primitives";
 
 // Faces north, toward the living room.
@@ -27,4 +28,6 @@ export function sink(g: THREE.Group, M: Materials) {
   B(g, M.inox, 12, 72, 14.5, 60, 17, 1);
   Cyl(g, M.inox, 12, 90, 22, 1.2, 24);
   Cyl(g, M.inox, 12, 113, 12, 1, 20, "z");
+  // On the counter over the dishwasher, away from the basin
+  airFryer(g, M, -43, 90, 12);
 }

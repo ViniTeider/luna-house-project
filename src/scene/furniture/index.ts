@@ -19,6 +19,7 @@ export { buildGrill } from "./grill";
 export { buildKitchen } from "./kitchen";
 export { createProjection, PROJECTION_TOP } from "./projector";
 export { fitHoodDuct } from "./stove";
+export { buildSurfRug } from "./surfRug";
 export { buildWardrobe } from "./wardrobe";
 
 // Size references: 55" TV 122.6 cm wide (owner's measurement) and 71 cm tall without feet, Mouse 10.4×7.1×3.8 cm,

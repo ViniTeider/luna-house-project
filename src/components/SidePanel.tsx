@@ -4,11 +4,13 @@ import type { StyleKey } from "../scene/decor";
 import { PALETTES } from "../scene/materials";
 import type { PaletteKey, PaletteValues } from "../scene/materials";
 
-type ToggleKey = "led" | "night" | "doorsOpen" | "roomsOn" | "projector";
+type ToggleKey =
+  "led" | "night" | "doorsOpen" | "roomsOn" | "projector" | "cabinetOpen";
 
 const TOGGLES: { key: ToggleKey; id: string; label: string }[] = [
   { key: "led", id: "led", label: "Wardrobe LED" },
   { key: "projector", id: "projector", label: "Projector" },
+  { key: "cabinetOpen", id: "cabinet", label: "Open mirror cabinet (O)" },
   { key: "night", id: "night", label: "Night" },
   { key: "doorsOpen", id: "doors", label: "Open doors" },
   { key: "roomsOn", id: "rooms", label: "Room names on plan" },

@@ -3,11 +3,13 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js";
+import { Reflector } from "three/examples/jsm/objects/Reflector.js";
 import {
   buildBath,
   buildGrill,
   buildItem,
   buildKitchen,
+  buildSurfRug,
   buildWardrobe,
   fitHoodDuct,
   createProjection,
@@ -51,6 +53,7 @@ export interface Settings {
   doorsOpen: boolean;
   roomsOn: boolean;
   projector: boolean;
+  cabinetOpen: boolean;
   style: StyleKey;
   palette: PaletteSelection;
 }
@@ -343,7 +346,8 @@ export class ApartmentView {
     const rebuild =
       prev.ceil !== next.ceil ||
       prev.cut !== next.cut ||
-      prev.style !== next.style;
+      prev.style !== next.style ||
+      prev.cabinetOpen !== next.cabinetOpen;
     if (rebuild) this.rebuildShell();
     if (prev.palette !== next.palette) this.M.apply(next.palette);
     if (prev.doorsOpen !== next.doorsOpen) this.applyDoors();
@@ -458,7 +462,8 @@ export class ApartmentView {
     this.scene.remove(...this.shell);
     this.shell.forEach((group) =>
       group.traverse((o) => {
-        if (o instanceof THREE.Mesh) o.geometry.dispose();
+        if (o instanceof Reflector) o.dispose();
+        else if (o instanceof THREE.Mesh) o.geometry.dispose();
       }),
     );
 
@@ -473,9 +478,13 @@ export class ApartmentView {
       buildWalls(this.M, wallH),
       buildWardrobe(this.M, planning ? PLAN_CUT : ceil),
       ceiling,
-      buildBath(this.M, wallH),
+      buildBath(this.M, wallH, {
+        cabinet: !planning,
+        cabinetOpen: this.settings.cabinetOpen,
+      }),
       buildGrill(this.M, wallH),
       buildKitchen(this.M, !planning),
+      buildSurfRug(this.M),
       this.applyDecor(wallH, planning),
     ];
     this.scene.add(...this.shell);
@@ -556,6 +565,7 @@ export class ApartmentView {
       light.visible = night;
     });
     this.decorKit.setNight(night);
+    this.M.lavaGlow.opacity = night ? 0.8 : 0.16;
     this.projection.setNight(night);
     this.projection.mesh.visible =
       this.settings.projector && this.wallHeight() >= PROJECTION_TOP;
