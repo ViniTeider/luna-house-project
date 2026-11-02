@@ -164,6 +164,15 @@ export function useApartment(
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [undo, redo]);
 
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.code !== "KeyN" || e.repeat || e.metaKey || e.ctrlKey) return;
+      change({ night: !settingsRef.current.night });
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mode, change]);
+
   const setMode = useCallback((next: Mode) => {
     setModeState(next);
     setWalkLocked(false);

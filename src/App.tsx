@@ -63,7 +63,7 @@ export function App() {
       {walking && !walkLocked && (
         <div className="walkhint">
           <strong>Click to walk</strong>W A S D to move, mouse to look, Shift to
-          speed up and Esc to exit
+          speed up, N for day/night and Esc to exit
         </div>
       )}
     </>
