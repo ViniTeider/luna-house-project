@@ -10,11 +10,12 @@ export function desk(g: THREE.Group, M: Materials) {
     [22, -80],
     [22, 80],
   ].forEach(([x, z]) => B(g, M.black, x, 0, z, 4, 72, 4));
-  // 70 cm monitor facing east
-  B(g, M.black, -17, 75, 0, 16, 1, 22);
-  B(g, M.black, -17, 76, 0, 3, 14, 5);
-  B(g, M.black, -14, 86, 0, 2.5, 40, 70);
-  const panel = B(g, M.screen, -12.5, 87, 0, 0.3, 38, 68);
+  // LG UltraWide 29" monitor facing east, 69.8 × 41.1 × 20.9 cm with stand (owner's
+  // measurement): 20.9 cm foot, 5 cm thick body, 67 × 28 cm visible screen
+  B(g, M.black, -14.55, 75, 0, 20.9, 1, 22);
+  B(g, M.black, -18, 76, 0, 3, 20, 5);
+  B(g, M.black, -15, 84.9, 0, 5, 31.2, 69.8);
+  const panel = B(g, M.screen, -12.5, 86.9, 0, 0.3, 28, 67);
   panel.castShadow = false;
   // White F75 keyboard, 30 × 13 cm, Figma measurement
   const kbZ = 9.5,
