@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luna House — planta 3D</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+    <div id="labels"></div>
+
+    <header class="topbar">
+      <div class="modes" role="group" aria-label="Modo de visualização">
+        <button data-mode="orbit" class="active">Maquete</button>
+        <button data-mode="plan">Planta</button>
+        <button data-mode="walk">Caminhar</button>
+      </div>
+      <div class="views" id="views"></div>
+      <div class="modes" role="group" aria-label="Histórico">
+        <button id="undo" title="Desfazer (Ctrl/⌘ + Z)">Desfazer</button>
+        <button id="redo" title="Refazer (Ctrl/⌘ + Shift + Z)">Refazer</button>
+      </div>
+    </header>
+
+    <aside class="panel">
+      <h1>Luna House</h1>
+      <section id="palettes"></section>
+      <section>
+        <h2>Ambiente</h2>
+        <label class="row">Pé-direito <output id="ceilOut"></output>
+          <input id="ceil" type="range" min="230" max="280" step="5" />
+        </label>
+        <p class="hint">A planta não informa a altura. O guarda-roupa acompanha.</p>
+        <label class="row">Corte das paredes <output id="cutOut"></output>
+          <input id="cut" type="range" min="100" max="280" step="10" />
+        </label>
+        <label class="check"><input id="led" type="checkbox" checked /> LED do guarda-roupa</label>
+        <label class="check"><input id="night" type="checkbox" /> Noite</label>
+        <label class="check"><input id="doors" type="checkbox" checked /> Portas abertas</label>
+        <label class="check"><input id="rooms" type="checkbox" checked /> Nomes na planta</label>
+      </section>
+      <button id="reset" class="ghost">Voltar móveis ao projeto</button>
+    </aside>
+
+    <aside class="inspector" id="inspector" hidden>
+      <h2 id="itemName"></h2>
+      <p id="itemSize"></p>
+      <p id="itemWarn" class="warn" hidden></p>
+      <div class="actions">
+        <button id="rotate">Girar 90° (R)</button>
+        <button id="deselect" class="ghost">Fechar</button>
+      </div>
+    </aside>
+
+    <div class="tip" id="tip">Arraste um móvel para mover e ver as distâncias. As setas ajustam de 1 em 1 cm. Ctrl/⌘ + Z desfaz.</div>
+    <div class="walkhint" id="walkhint" hidden>
+      <strong>Clique para caminhar</strong>
+      W A S D para andar, mouse para olhar, Shift para acelerar e Esc para sair
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
