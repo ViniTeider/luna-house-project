@@ -1,71 +1,100 @@
 import * as THREE from 'three';
 
-export const PALETTES = {
-  marcenaria: {
-    label: 'Marcenaria',
-    default: 'Preto + madeira',
+interface GraniteSpec {
+  base: string;
+  flecks: [color: string, count: number, size: number][];
+}
+
+export interface PaletteValues {
+  main?: string;
+  wood?: string;
+  top?: string;
+  wall?: string;
+  sofa?: string;
+  floor?: string;
+  floorTex?: 'planks' | 'tile';
+  granite?: GraniteSpec;
+}
+
+export type PaletteKey = 'cabinetry' | 'walls' | 'sofa' | 'granite' | 'floor';
+export type PaletteSelection = Record<PaletteKey, string>;
+
+interface PaletteGroup {
+  label: string;
+  default: string;
+  options: Record<string, PaletteValues>;
+}
+
+export const PALETTES: Record<PaletteKey, PaletteGroup> = {
+  cabinetry: {
+    label: 'Cabinetry',
+    default: 'Black + wood',
     options: {
-      'Preto + madeira': { main: '#17181a', wood: '#b48a5e', top: '#23252a' },
-      'Branco + madeira': { main: '#ece8e1', wood: '#d6b890', top: '#e6e3dc' },
-      'Grafite + madeira': { main: '#43474c', wood: '#9a7350', top: '#5a5e63' },
-      'Verde + madeira': { main: '#24382f', wood: '#c6a077', top: '#e6e1d6' },
+      'Black + wood': { main: '#17181a', wood: '#b48a5e', top: '#23252a' },
+      'White + wood': { main: '#ece8e1', wood: '#d6b890', top: '#e6e3dc' },
+      'Graphite + wood': { main: '#43474c', wood: '#9a7350', top: '#5a5e63' },
+      'Green + wood': { main: '#24382f', wood: '#c6a077', top: '#e6e1d6' },
     },
   },
-  paredes: {
-    label: 'Paredes',
-    default: 'Creme',
+  walls: {
+    label: 'Walls',
+    default: 'Cream',
     options: {
-      Creme: { wall: '#efe5d0' },
-      Areia: { wall: '#e0d1b7' },
+      Cream: { wall: '#efe5d0' },
+      Sand: { wall: '#e0d1b7' },
       'Off-white': { wall: '#f6f3ec' },
-      'Cinza quente': { wall: '#cfc9bf' },
-      'Verde sálvia': { wall: '#b9c4ae' },
+      'Warm gray': { wall: '#cfc9bf' },
+      'Sage green': { wall: '#b9c4ae' },
     },
   },
   sofa: {
-    label: 'Sofá',
-    default: 'Azul',
+    label: 'Sofa',
+    default: 'Blue',
     options: {
-      Azul: { sofa: '#27466e' },
-      Cinza: { sofa: '#7b7e83' },
-      Bege: { sofa: '#cdbba0' },
-      Preto: { sofa: '#232326' },
-      Verde: { sofa: '#2f5444' },
+      Blue: { sofa: '#27466e' },
+      Gray: { sofa: '#7b7e83' },
+      Beige: { sofa: '#cdbba0' },
+      Black: { sofa: '#232326' },
+      Green: { sofa: '#2f5444' },
     },
   },
-  granito: {
-    label: 'Granito (ilha e bancada)',
-    default: 'Preto São Gabriel',
+  granite: {
+    label: 'Granite (island and countertop)',
+    default: 'São Gabriel Black',
     options: {
-      'Preto São Gabriel': {
+      'São Gabriel Black': {
         granite: { base: '#15161a', flecks: [['#3a3d45', 9000, 2.2], ['#8a8f99', 2500, 1.4], ['#d8d6cf', 350, 1.5]] },
       },
-      'Cinza Corumbá': {
+      'Corumbá Gray': {
         granite: { base: '#77787b', flecks: [['#3f4043', 14000, 2.8], ['#b9b9b6', 12000, 2.4], ['#1f2022', 3000, 2]] },
       },
-      'Branco Dallas': {
+      'Dallas White': {
         granite: { base: '#dcd8cf', flecks: [['#8e8a82', 9000, 2.4], ['#2f2e2c', 4000, 2.2], ['#b9a98e', 3000, 2.4]] },
       },
-      'Verde Ubatuba': {
+      'Ubatuba Green': {
         granite: { base: '#1c2a25', flecks: [['#3f5a4b', 12000, 2.6], ['#0c1210', 6000, 2.2], ['#a8a27f', 1500, 1.5]] },
       },
     },
   },
-  piso: {
-    label: 'Piso',
-    default: 'Madeira clara',
+  floor: {
+    label: 'Floor',
+    default: 'Light wood',
     options: {
-      'Madeira clara': { floor: '#dcbd93', floorTex: 'planks' },
-      'Madeira escura': { floor: '#7a5338', floorTex: 'planks' },
-      'Porcelanato cinza': { floor: '#cfcdc8', floorTex: 'tile' },
+      'Light wood': { floor: '#dcbd93', floorTex: 'planks' },
+      'Dark wood': { floor: '#7a5338', floorTex: 'planks' },
+      'Gray porcelain': { floor: '#cfcdc8', floorTex: 'tile' },
     },
   },
 };
 
-function canvasTexture(size, draw, metersPerRepeat) {
+function canvasTexture(
+  size: number,
+  draw: (ctx: CanvasRenderingContext2D, size: number) => void,
+  metersPerRepeat: number,
+) {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = size;
-  draw(canvas.getContext('2d'), size);
+  draw(canvas.getContext('2d')!, size);
   const tex = new THREE.CanvasTexture(canvas);
   tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
   tex.colorSpace = THREE.SRGBColorSpace;
@@ -74,13 +103,21 @@ function canvasTexture(size, draw, metersPerRepeat) {
   return tex;
 }
 
-// Gerador determinístico: as texturas ficam iguais a cada carregamento.
-function rng(seed) {
+// Deterministic generator: textures look the same on every load.
+function rng(seed: number) {
   let s = seed;
   return () => (s = (s * 16807) % 2147483647) / 2147483647;
 }
 
-function grain(ctx, x, y, w, h, rand, strength = 0.05) {
+function grain(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  rand: () => number,
+  strength = 0.05,
+) {
   for (let i = 0; i < h / 1.6; i++) {
     const gy = y + rand() * h;
     ctx.strokeStyle = `rgba(60,40,20,${rand() * strength})`;
@@ -92,7 +129,7 @@ function grain(ctx, x, y, w, h, rand, strength = 0.05) {
   }
 }
 
-// As texturas são claras e o tom vem de material.color, o que permite trocar a paleta.
+// Textures are light and the tone comes from material.color, so palettes can be swapped.
 function plankTexture() {
   const rand = rng(11);
   return canvasTexture(2048, (ctx, s) => {
@@ -150,7 +187,7 @@ function tileTexture(tiles = 2) {
   }, 1.2);
 }
 
-function graniteTexture({ base, flecks }) {
+function graniteTexture({ base, flecks }: GraniteSpec) {
   const rand = rng(71);
   return canvasTexture(1024, (ctx, s) => {
     ctx.fillStyle = base;
@@ -195,7 +232,7 @@ function brickTexture() {
 }
 
 export function createMaterials() {
-  const plain = (color, roughness = 0.6, metalness = 0, extra = {}) =>
+  const plain = (color: string, roughness = 0.6, metalness = 0, extra: THREE.MeshStandardMaterialParameters = {}) =>
     new THREE.MeshStandardMaterial({ color, roughness, metalness, ...extra });
 
   const planks = plankTexture();
@@ -234,13 +271,15 @@ export function createMaterials() {
     led: new THREE.MeshStandardMaterial({ color: '#fff3df', emissive: '#ffcf96', emissiveIntensity: 3 }),
   };
 
-  const graniteCache = new Map();
+  const graniteCache = new Map<GraniteSpec, THREE.CanvasTexture>();
 
-  M.apply = (selection) => {
-    const c = {};
-    for (const [group, name] of Object.entries(selection)) Object.assign(c, PALETTES[group].options[name]);
+  const apply = (selection: PaletteSelection) => {
+    const c = {} as Required<PaletteValues>;
+    (Object.keys(selection) as PaletteKey[]).forEach((group) => {
+      Object.assign(c, PALETTES[group].options[selection[group]]);
+    });
     if (!graniteCache.has(c.granite)) graniteCache.set(c.granite, graniteTexture(c.granite));
-    M.granite.map = graniteCache.get(c.granite);
+    M.granite.map = graniteCache.get(c.granite) ?? null;
     M.granite.needsUpdate = true;
     M.main.color.set(c.main);
     M.wood.color.set(c.wood);
@@ -253,5 +292,7 @@ export function createMaterials() {
     M.floor.needsUpdate = true;
   };
 
-  return M;
+  return { ...M, apply };
 }
+
+export type Materials = ReturnType<typeof createMaterials>;

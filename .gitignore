@@ -2,7 +2,7 @@ node_modules
 dist
 .DS_Store
 
-# Arquivos privados do apartamento: desenhos do Figma e plantas originais
+# Private apartment files: Figma drawings and original plans
 /*.svg
 /*.pdf
 /*.png
