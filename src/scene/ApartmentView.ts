@@ -10,6 +10,8 @@ import {
   buildKitchen,
   buildWardrobe,
   fitHoodDuct,
+  createProjection,
+  PROJECTION_TOP,
 } from "./furniture";
 import { createLandscape } from "./landscape";
 import type { Landscape } from "./landscape";
@@ -48,6 +50,7 @@ export interface Settings {
   night: boolean;
   doorsOpen: boolean;
   roomsOn: boolean;
+  projector: boolean;
   style: StyleKey;
   palette: PaletteSelection;
 }
@@ -148,6 +151,7 @@ export class ApartmentView {
   private readonly baseObstacles: Obstacle[];
   private fixed: Obstacle[];
   private readonly decorKit = createDecorKit();
+  private readonly projection = createProjection();
   private lanternLights: THREE.PointLight[] = [];
   private shell: THREE.Group[] = [];
   private landscape: Landscape | null = null;
@@ -281,6 +285,7 @@ export class ApartmentView {
 
     this.doors = buildDoors(this.M);
     this.scene.add(...this.doors);
+    this.scene.add(this.projection.mesh);
     this.baseObstacles = [...wallBlockers(), ...FIXED_OBSTACLES];
     this.fixed = this.baseObstacles;
 
@@ -443,6 +448,12 @@ export class ApartmentView {
     return lines;
   }
 
+  private wallHeight() {
+    const { ceil, cut } = this.settings;
+    if (this.mode === "walk") return ceil;
+    return this.mode === "plan" ? PLAN_CUT : Math.min(cut, ceil);
+  }
+
   private rebuildShell() {
     this.scene.remove(...this.shell);
     this.shell.forEach((group) =>
@@ -451,10 +462,10 @@ export class ApartmentView {
       }),
     );
 
-    const { ceil, cut } = this.settings;
+    const { ceil } = this.settings;
     const walking = this.mode === "walk";
     const planning = this.mode === "plan";
-    const wallH = walking ? ceil : planning ? PLAN_CUT : Math.min(cut, ceil);
+    const wallH = this.wallHeight();
 
     const ceiling = buildCeiling(this.M, ceil);
     ceiling.visible = walking;
@@ -545,6 +556,9 @@ export class ApartmentView {
       light.visible = night;
     });
     this.decorKit.setNight(night);
+    this.projection.setNight(night);
+    this.projection.mesh.visible =
+      this.settings.projector && this.wallHeight() >= PROJECTION_TOP;
     this.lanternLights.forEach((light) => {
       light.intensity = night ? 3.2 : 0;
       light.visible = night;

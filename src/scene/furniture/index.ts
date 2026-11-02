@@ -17,6 +17,7 @@ import { washer } from "./washer";
 export { buildBath } from "./bath";
 export { buildGrill } from "./grill";
 export { buildKitchen } from "./kitchen";
+export { createProjection, PROJECTION_TOP } from "./projector";
 export { fitHoodDuct } from "./stove";
 export { buildWardrobe } from "./wardrobe";
 

@@ -99,6 +99,7 @@ export function loadState(): SavedState {
       night: saved.night ?? false,
       doorsOpen: saved.doorsOpen ?? true,
       roomsOn: saved.roomsOn ?? true,
+      projector: saved.projector ?? true,
       style: saved.style && saved.style in STYLES ? saved.style : STYLE_DEFAULT,
       palette,
     },

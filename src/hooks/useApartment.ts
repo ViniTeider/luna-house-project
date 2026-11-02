@@ -233,8 +233,10 @@ export function useApartment(
     setCut,
     setCeiling: useCallback((ceil: number) => change({ ceil }, true), [change]),
     setToggle: useCallback(
-      (key: "led" | "night" | "doorsOpen" | "roomsOn", value: boolean) =>
-        change({ [key]: value }),
+      (
+        key: "led" | "night" | "doorsOpen" | "roomsOn" | "projector",
+        value: boolean,
+      ) => change({ [key]: value }),
       [change],
     ),
     resetLayout: useCallback(() => viewRef.current?.resetLayout(), []),

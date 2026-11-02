@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import type { Materials } from "../materials";
 import { B, cm } from "./primitives";
+import { projector } from "./projector";
 
 // Floor-to-ceiling wardrobe on both sides of the bed, with a bridge and LED. Plan coordinates.
 export function buildWardrobe(M: Materials, h: number) {
@@ -58,6 +59,8 @@ export function buildWardrobe(M: Materials, h: number) {
   B(g, M.screen, 275, 80.8, -345, 15, 0.1, 6.8);
   B(g, M.black, 367, 80, -345, 17.7, 0.9, 12.7);
   B(g, M.ceramic, 367, 80.9, -345, 14, 0.1, 10);
+
+  projector(g, M);
 
   // Cabinet above the bed, same joinery as the side modules. The plan cut sits
   // at its underside.

@@ -256,6 +256,7 @@ export function createMaterials() {
     fabricLight: plain('#ece7dd', 0.95, 0, { map: fabric }),
     duvet: plain('#c9c2b4', 0.95, 0, { map: fabric }),
     white: plain('#f2f1ed', 0.35),
+    projector: plain('#1e3f68', 0.4),
     black: plain('#101113', 0.4),
     blackSoft: plain('#1a1b1e', 0.85),
     green: plain('#2fae5a', 0.7),

@@ -138,7 +138,7 @@ export function cozyDecor(
 
   // Plants, in spots that keep the passages free
   pottedPlant(fixed, kit, "tree", [464, 0, -82], { radius: 14, height: 34 });
-  pottedPlant(fixed, kit, "tree", [435, 0, -135], {
+  pottedPlant(fixed, kit, "tree", [442, 0, -135], {
     radius: 14,
     height: 34,
     seed: 3,
@@ -228,7 +228,7 @@ export function cozyDecor(
     fixed,
     obstacles: [
       obstacle(464, -82, 14, "plant"),
-      obstacle(435, -135, 14, "plant"),
+      obstacle(442, -135, 14, "plant"),
       obstacle(385, 273, 13, "plant"),
       obstacle(461, 268, 11, "plant"),
       obstacle(463, 60, 14, "floor lamp"),
