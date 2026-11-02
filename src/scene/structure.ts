@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { B } from './furniture';
+import { B } from './furniture/primitives';
 import type { Materials } from './materials';
 import { WALLS, OPEN_PLAN, FLOOR_RECTS, CEILING_RECTS, RAILING, DOORS } from './plan';
 import type { Obstacle, Opening, Rect, Wall } from './plan';
