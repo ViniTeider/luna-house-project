@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { cm } from "../furniture/primitives";
 import { blossomMaterials } from "./blossomKit";
+import { brazilMaterials } from "./brazilKit";
 import { canvasTexture } from "./canvas";
 import { eclecticMaterials } from "./eclecticKit";
 import { teenMaterials } from "./teenKit";
@@ -173,6 +174,7 @@ export function createDecorKit() {
     eclectic: eclecticMaterials(),
     teen: teenMaterials(),
     blossom: blossomMaterials(),
+    brazil: brazilMaterials(),
   };
 
   const setNight = (night: boolean) => {
@@ -184,6 +186,7 @@ export function createDecorKit() {
     kit.bulb.color.set(night ? "#ffc98a" : "#e8d8c0");
     kit.teen.setNight(night);
     kit.blossom.setNight(night);
+    kit.brazil.setNight(night);
   };
 
   return { ...kit, setNight };

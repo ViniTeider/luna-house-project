@@ -12,7 +12,7 @@ export interface PaletteValues {
   wall?: string;
   sofa?: string;
   floor?: string;
-  floorTex?: 'planks' | 'tile';
+  floorTex?: 'planks' | 'tile' | 'chevron';
   granite?: GraniteSpec;
 }
 
@@ -36,6 +36,7 @@ export const PALETTES: Record<PaletteKey, PaletteGroup> = {
       'Green + wood': { main: '#24382f', wood: '#c6a077', top: '#e6e1d6' },
       'Walnut + oak': { main: '#5e412c', wood: '#c09468', top: '#e4d8c4' },
       'Blush + oak': { main: '#e4cdc4', wood: '#cfa97f', top: '#ebe2d8' },
+      'Sage + freijó': { main: '#8d9b80', wood: '#b98a5c', top: '#e6e1d6' },
       'Teal + wood': { main: '#2b8a86', wood: '#d2a56f', top: '#e6e3dc' },
     },
   },
@@ -91,6 +92,7 @@ export const PALETTES: Record<PaletteKey, PaletteGroup> = {
       'Honey wood': { floor: '#c49a68', floorTex: 'planks' },
       'Dark wood': { floor: '#7a5338', floorTex: 'planks' },
       'Gray porcelain': { floor: '#cfcdc8', floorTex: 'tile' },
+      'Chevron oak': { floor: '#c39462', floorTex: 'chevron' },
     },
   },
 };
@@ -164,6 +166,35 @@ function plankTexture() {
       ctx.fillRect(0, r * ph, s, 2);
     }
   }, 2.16);
+}
+
+// Short planks meeting at an angle in alternating columns
+function chevronTexture() {
+  const rand = rng(17);
+  return canvasTexture(1024, (ctx, s) => {
+    const cols = 8;
+    const cw = s / cols;
+    const ph = s / 16;
+    for (let c = 0; c < cols; c++) {
+      const dir = c % 2 ? 1 : -1;
+      const x0 = c * cw;
+      for (let k = -18; k < 34; k++) {
+        const y0 = k * ph - (dir > 0 ? 0 : -cw);
+        const tone = 236 + rand() * 19;
+        ctx.fillStyle = `rgb(${tone},${tone},${tone})`;
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x0 + cw, y0 + dir * cw);
+        ctx.lineTo(x0 + cw, y0 + dir * cw + ph);
+        ctx.lineTo(x0, y0 + ph);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(50,35,20,.32)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+  }, 1.2);
 }
 
 function grainTexture() {
@@ -310,11 +341,12 @@ export function createMaterials() {
 
   const planks = plankTexture();
   const tile = tileTexture();
+  const chevron = chevronTexture();
   const fine = grainTexture();
   const fabric = fabricTexture();
 
   const M = {
-    textures: { planks, tile },
+    textures: { planks, tile, chevron },
     wall: plain('#efe5d0', 0.9),
     cap: plain('#2c2d30', 0.9),
     main: plain('#17181a', 0.45, 0.05),

@@ -1,6 +1,6 @@
 import type { PaletteSelection } from "../materials";
 
-export type StyleKey = "Original" | "Cozy" | "Eclectic" | "Teen Loft" | "Blossom";
+export type StyleKey = "Original" | "Cozy" | "Eclectic" | "Teen Loft" | "Blossom" | "Brazilian Modern";
 
 interface StyleSpec {
   swatch: string;
@@ -94,5 +94,23 @@ export const STYLES: Record<StyleKey, StyleSpec> = {
     hemiGround: "#c9a99a",
     roomLight: "#ffc4a8",
     roomIntensity: 2.1,
+  },
+  // Warm and modern Brazilian: color blocking in terracotta, olive and mustard,
+  // natural fibers, wood shelves, plants and black track lights
+  "Brazilian Modern": {
+    swatch: "#a2563c",
+    palette: {
+      cabinetry: "Sage + freijó",
+      walls: "Cream",
+      sofa: "Beige",
+      granite: "São Gabriel Black",
+      floor: "Chevron oak",
+    },
+    sun: "#ffe9cc",
+    sunIntensity: 1.05,
+    hemiSky: "#fff1de",
+    hemiGround: "#c99a74",
+    roomLight: "#ffc48a",
+    roomIntensity: 2.2,
   },
 };
