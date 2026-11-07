@@ -57,6 +57,7 @@ export const PALETTES: Record<PaletteKey, PaletteGroup> = {
       Beige: { sofa: '#cdbba0' },
       Black: { sofa: '#232326' },
       Green: { sofa: '#2f5444' },
+      Sage: { sofa: '#a3ac95' },
     },
   },
   granite: {

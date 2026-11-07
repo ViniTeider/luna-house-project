@@ -1,6 +1,6 @@
 import type { PaletteSelection } from "../materials";
 
-export type StyleKey = "Original" | "Cozy";
+export type StyleKey = "Original" | "Cozy" | "Eclectic";
 
 interface StyleSpec {
   swatch: string;
@@ -42,5 +42,22 @@ export const STYLES: Record<StyleKey, StyleSpec> = {
     hemiGround: "#c9a07a",
     roomLight: "#ffb36b",
     roomIntensity: 1.7,
+  },
+  // Collected and colorful: white and light wood as a base, earthy color in paint, art and textiles
+  Eclectic: {
+    swatch: "#a4532f",
+    palette: {
+      cabinetry: "White + wood",
+      walls: "Off-white",
+      sofa: "Sage",
+      granite: "Dallas White",
+      floor: "Light wood",
+    },
+    sun: "#fff6ea",
+    sunIntensity: 1.05,
+    hemiSky: "#f7f6f2",
+    hemiGround: "#c9b8a0",
+    roomLight: "#ffd2a0",
+    roomIntensity: 2.3,
   },
 };

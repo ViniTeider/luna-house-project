@@ -1,24 +1,10 @@
 import * as THREE from "three";
 import { cm } from "../furniture/primitives";
+import { canvasTexture } from "./canvas";
+import { eclecticMaterials } from "./eclecticKit";
 
 const noPicking = () => {};
 const GLOW_COLOR = new THREE.Color("#ffae5e"); // about 2700 K
-
-function canvasTexture(
-  width: number,
-  height: number,
-  draw: (ctx: CanvasRenderingContext2D) => void,
-  repeat = false,
-) {
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  draw(canvas.getContext("2d")!);
-  const tex = new THREE.CanvasTexture(canvas);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  if (repeat) tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  return tex;
-}
 
 function paperTexture() {
   return canvasTexture(64, 256, (ctx) => {
@@ -182,6 +168,7 @@ export function createDecorKit() {
     cushionRust: plain("#97583c", 0.95),
     cushionOchre: plain("#b58f5a", 0.95),
     throw: plain("#8c6a48", 0.95),
+    eclectic: eclecticMaterials(),
   };
 
   const setNight = (night: boolean) => {

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import type { Materials } from "../materials";
 import type { ItemBuild, Obstacle } from "../plan";
 import { cozyDecor } from "./cozy";
+import { eclecticDecor } from "./eclectic";
 import type { DecorKit } from "./kit";
 import type { StyleKey } from "./styles";
 
@@ -30,5 +31,6 @@ export function buildDecor(
   context: DecorContext,
 ): Decor {
   if (style === "Cozy") return cozyDecor(M, kit, context);
+  if (style === "Eclectic") return eclecticDecor(M, kit, context);
   return { fixed: new THREE.Group(), obstacles: [], items: {} };
 }
