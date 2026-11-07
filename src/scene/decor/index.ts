@@ -5,6 +5,7 @@ import { cozyDecor } from "./cozy";
 import { eclecticDecor } from "./eclectic";
 import type { DecorKit } from "./kit";
 import type { StyleKey } from "./styles";
+import { teenDecor } from "./teen";
 
 export { createDecorKit } from "./kit";
 export type { DecorKit } from "./kit";
@@ -32,5 +33,6 @@ export function buildDecor(
 ): Decor {
   if (style === "Cozy") return cozyDecor(M, kit, context);
   if (style === "Eclectic") return eclecticDecor(M, kit, context);
+  if (style === "Teen Loft") return teenDecor(M, kit, context);
   return { fixed: new THREE.Group(), obstacles: [], items: {} };
 }

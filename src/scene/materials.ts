@@ -35,6 +35,7 @@ export const PALETTES: Record<PaletteKey, PaletteGroup> = {
       'Graphite + wood': { main: '#43474c', wood: '#9a7350', top: '#5a5e63' },
       'Green + wood': { main: '#24382f', wood: '#c6a077', top: '#e6e1d6' },
       'Walnut + oak': { main: '#5e412c', wood: '#c09468', top: '#e4d8c4' },
+      'Teal + wood': { main: '#2b8a86', wood: '#d2a56f', top: '#e6e3dc' },
     },
   },
   walls: {
@@ -46,6 +47,7 @@ export const PALETTES: Record<PaletteKey, PaletteGroup> = {
       'Off-white': { wall: '#f6f3ec' },
       'Warm gray': { wall: '#cfc9bf' },
       'Sage green': { wall: '#b9c4ae' },
+      Butter: { wall: '#f3e3b3' },
     },
   },
   sofa: {
@@ -58,6 +60,7 @@ export const PALETTES: Record<PaletteKey, PaletteGroup> = {
       Black: { sofa: '#232326' },
       Green: { sofa: '#2f5444' },
       Sage: { sofa: '#a3ac95' },
+      Plum: { sofa: '#5b3a6e' },
     },
   },
   granite: {

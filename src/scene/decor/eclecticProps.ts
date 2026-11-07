@@ -3,7 +3,7 @@ import { B, Cyl, cm } from "../furniture/primitives";
 import { halo } from "./kit";
 import type { DecorKit } from "./kit";
 
-function lathe(
+export function lathe(
   g: THREE.Object3D,
   material: THREE.Material,
   profile: [number, number][],
@@ -23,7 +23,7 @@ function lathe(
 }
 
 // Disc of light facing down, closing the open bottom of a shade.
-function glowDisc(
+export function glowDisc(
   g: THREE.Object3D,
   kit: DecorKit,
   x: number,

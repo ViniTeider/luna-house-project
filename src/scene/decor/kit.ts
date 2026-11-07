@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { cm } from "../furniture/primitives";
 import { canvasTexture } from "./canvas";
 import { eclecticMaterials } from "./eclecticKit";
+import { teenMaterials } from "./teenKit";
 
 const noPicking = () => {};
 const GLOW_COLOR = new THREE.Color("#ffae5e"); // about 2700 K
@@ -169,6 +170,7 @@ export function createDecorKit() {
     cushionOchre: plain("#b58f5a", 0.95),
     throw: plain("#8c6a48", 0.95),
     eclectic: eclecticMaterials(),
+    teen: teenMaterials(),
   };
 
   const setNight = (night: boolean) => {
@@ -178,6 +180,7 @@ export function createDecorKit() {
     kit.paper.color.set(night ? "#ffffff" : "#e2d4bf");
     kit.led.color.set(night ? "#ffd6a0" : "#f3dcc0");
     kit.bulb.color.set(night ? "#ffc98a" : "#e8d8c0");
+    kit.teen.setNight(night);
   };
 
   return { ...kit, setNight };

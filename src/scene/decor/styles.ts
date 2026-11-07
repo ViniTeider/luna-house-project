@@ -1,6 +1,6 @@
 import type { PaletteSelection } from "../materials";
 
-export type StyleKey = "Original" | "Cozy" | "Eclectic";
+export type StyleKey = "Original" | "Cozy" | "Eclectic" | "Teen Loft";
 
 interface StyleSpec {
   swatch: string;
@@ -59,5 +59,22 @@ export const STYLES: Record<StyleKey, StyleSpec> = {
     hemiGround: "#c9b8a0",
     roomLight: "#ffd2a0",
     roomIntensity: 2.3,
+  },
+  // Fun and cozy city loft: exposed brick, a retro kitchen, pop colors and neon shapes
+  "Teen Loft": {
+    swatch: "#e8578f",
+    palette: {
+      cabinetry: "Teal + wood",
+      walls: "Butter",
+      sofa: "Plum",
+      granite: "Dallas White",
+      floor: "Honey wood",
+    },
+    sun: "#fff3e2",
+    sunIntensity: 1,
+    hemiSky: "#fff4e6",
+    hemiGround: "#c9a07a",
+    roomLight: "#ffc79a",
+    roomIntensity: 2.2,
   },
 };
