@@ -4,6 +4,7 @@ import { blossomMaterials } from "./blossomKit";
 import { brazilMaterials } from "./brazilKit";
 import { canvasTexture } from "./canvas";
 import { eclecticMaterials } from "./eclecticKit";
+import { midMaterials } from "./midKit";
 import { teenMaterials } from "./teenKit";
 
 const noPicking = () => {};
@@ -175,6 +176,7 @@ export function createDecorKit() {
     teen: teenMaterials(),
     blossom: blossomMaterials(),
     brazil: brazilMaterials(),
+    mid: midMaterials(),
   };
 
   const setNight = (night: boolean) => {
@@ -187,6 +189,7 @@ export function createDecorKit() {
     kit.teen.setNight(night);
     kit.blossom.setNight(night);
     kit.brazil.setNight(night);
+    kit.mid.setNight(night);
   };
 
   return { ...kit, setNight };

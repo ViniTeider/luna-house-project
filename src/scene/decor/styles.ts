@@ -1,6 +1,6 @@
 import type { PaletteSelection } from "../materials";
 
-export type StyleKey = "Original" | "Cozy" | "Eclectic" | "Teen Loft" | "Blossom" | "Brazilian Modern";
+export type StyleKey = "Original" | "Cozy" | "Eclectic" | "Teen Loft" | "Blossom" | "Brazilian Modern" | "Mid-Century";
 
 interface StyleSpec {
   swatch: string;
@@ -112,5 +112,23 @@ export const STYLES: Record<StyleKey, StyleSpec> = {
     hemiGround: "#c99a74",
     roomLight: "#ffc48a",
     roomIntensity: 2.2,
+  },
+  // Collected mid-century: teak, a moss sofa, rust and mustard accents, a poster
+  // gallery, records and warm paper lanterns
+  "Mid-Century": {
+    swatch: "#e0672a",
+    palette: {
+      cabinetry: "Teak",
+      walls: "Warm gray",
+      sofa: "Moss",
+      granite: "São Gabriel Black",
+      floor: "Honey wood",
+    },
+    sun: "#ffdcae",
+    sunIntensity: 1,
+    hemiSky: "#fff0dc",
+    hemiGround: "#b98c66",
+    roomLight: "#ffbd7e",
+    roomIntensity: 2.3,
   },
 };

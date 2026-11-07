@@ -5,6 +5,7 @@ import { blossomDecor } from "./blossom";
 import { brazilDecor } from "./brazil";
 import { cozyDecor } from "./cozy";
 import { eclecticDecor } from "./eclectic";
+import { midDecor } from "./mid";
 import type { DecorKit } from "./kit";
 import type { StyleKey } from "./styles";
 import { teenDecor } from "./teen";
@@ -38,5 +39,6 @@ export function buildDecor(
   if (style === "Teen Loft") return teenDecor(M, kit, context);
   if (style === "Blossom") return blossomDecor(M, kit, context);
   if (style === "Brazilian Modern") return brazilDecor(M, kit, context);
+  if (style === "Mid-Century") return midDecor(M, kit, context);
   return { fixed: new THREE.Group(), obstacles: [], items: {} };
 }
