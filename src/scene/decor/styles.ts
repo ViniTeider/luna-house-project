@@ -1,6 +1,6 @@
 import type { PaletteSelection } from "../materials";
 
-export type StyleKey = "Original" | "Cozy" | "Eclectic" | "Teen Loft";
+export type StyleKey = "Original" | "Cozy" | "Eclectic" | "Teen Loft" | "Blossom";
 
 interface StyleSpec {
   swatch: string;
@@ -76,5 +76,23 @@ export const STYLES: Record<StyleKey, StyleSpec> = {
     hemiGround: "#c9a07a",
     roomLight: "#ffc79a",
     roomIntensity: 2.2,
+  },
+  // Romantic and soft: cherry blossom trees with fairy lights, painted panels and
+  // pothos vines over cream, dusty rose and sage
+  Blossom: {
+    swatch: "#e6a3b4",
+    palette: {
+      cabinetry: "Blush + oak",
+      walls: "Cream",
+      sofa: "Dusty rose",
+      granite: "Dallas White",
+      floor: "Light wood",
+    },
+    sun: "#fff1e4",
+    sunIntensity: 1,
+    hemiSky: "#fff3ea",
+    hemiGround: "#c9a99a",
+    roomLight: "#ffc4a8",
+    roomIntensity: 2.1,
   },
 };

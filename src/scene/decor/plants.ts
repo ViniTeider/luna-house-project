@@ -5,14 +5,14 @@ import type { DecorKit } from "./kit";
 
 export type PlantKind = "tree" | "snake" | "bush" | "trailing" | "hanging";
 
-const GREENS = ["#3f6d3a", "#4f8044", "#2f5a33", "#5e8f4d"];
+export const GREENS = ["#3f6d3a", "#4f8044", "#2f5a33", "#5e8f4d"];
 const ROWS = 6;
 
 function seededRandom(seed: number) {
   return () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 }
 
-interface Leaf {
+export interface Leaf {
   at: [number, number, number];
   yaw: number;
   pitch: number;
@@ -22,7 +22,7 @@ interface Leaf {
   color: string;
 }
 
-function leafGeometry({ at, yaw, pitch, length, width, droop, color }: Leaf) {
+export function leafGeometry({ at, yaw, pitch, length, width, droop, color }: Leaf) {
   const positions: number[] = [];
   const colors: number[] = [];
   const index: number[] = [];

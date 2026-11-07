@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import type { Materials } from "../materials";
 import type { ItemBuild, Obstacle } from "../plan";
+import { blossomDecor } from "./blossom";
 import { cozyDecor } from "./cozy";
 import { eclecticDecor } from "./eclectic";
 import type { DecorKit } from "./kit";
@@ -34,5 +35,6 @@ export function buildDecor(
   if (style === "Cozy") return cozyDecor(M, kit, context);
   if (style === "Eclectic") return eclecticDecor(M, kit, context);
   if (style === "Teen Loft") return teenDecor(M, kit, context);
+  if (style === "Blossom") return blossomDecor(M, kit, context);
   return { fixed: new THREE.Group(), obstacles: [], items: {} };
 }
